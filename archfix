@@ -1034,8 +1034,8 @@ function install_libreoffice() {
   echo ""
   sleep 2
   CCODE=${LANGUAGE:0:2}
-  install_package "powerpill" "libreoffice-common libreoffice-calc libreoffice-writer"
-  install_package "powerpill" "libreoffice-gnome hunspell hunspell-"$CCODE" libreoffice-"$CCODE
+  install_package "powerpill" "libreoffice-still-common libreoffice-still-calc libreoffice-still-writer"
+  install_package "powerpill" "hunspell hunspell-"$CCODE" libreoffice-still-"$CCODE
   return 0
 }
 
@@ -1178,7 +1178,7 @@ function install_java() {
   echo "******************************************************"
   echo ""
   sleep 2
-  install_package "powerpill" "jre7-openjdk icedtea-web-java7"
+  install_package "powerpill" "jre7-openjdk icedtea-web"
   return 0
 }
 
