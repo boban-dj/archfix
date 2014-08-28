@@ -387,9 +387,30 @@ function calc_optimal_swap_size() {
 }
 
 function calc_optimal_patition_size() {
-  TOTAL_HDD_SIZE=$(($TOTAL_HDD_SIZE - $BOOT_SIZE))
-  ROOT_SIZE=$(($TOTAL_HDD_SIZE * 15 / 100))
+  TOTAL_HDD_SIZE=$(($TOTAL_HDD_SIZE - $BOOT_SIZE - $SWAP_SIZE))
+  #ROOT_SIZE=$(($TOTAL_HDD_SIZE * 15 / 100))
+  
+  CHECK_VALUE=$(($TOTAL_HDD_SIZE - 35000))
+  if [[ $CHECK_VALUE =~ ^[0-9]+$ ]]
+  then
+     ROOT_SIZE=35000
+  else
+	CHECK_VALUE=$(($TOTAL_HDD_SIZE - 15000))
+	if [[ $CHECK_VALUE =~ ^[0-9]+$ ]]
+	then
+		ROOT_SIZE=15000
+	else
+	  CHECK_VALUE=$(($TOTAL_HDD_SIZE - 10000))
+	  then
+		ROOT_SIZE=10000
+	  else
+		message_print 0 'error! you have not enough disk space!'
+	  fi
+	fi
+  fi
+  
   HOME_SIZE=$(($TOTAL_HDD_SIZE - $ROOT_SIZE))
+  
   return 0
 }
 
@@ -470,6 +491,7 @@ function install_base() {
   sleep 2
   pacstrap /mnt base base-devel
   genfstab -p /mnt > /mnt/etc/fstab
+  echo 'tmpfs   /tmp         tmpfs   nodev,nosuid,size=2G          0  0' >> /mnt/etc/fstab
   echo $HOSTNAME > /mnt/etc/hostname
   echo 'LANG='$LANGUAGE'.UTF-8' > /mnt/etc/locale.conf
   echo 'LC_COLLATE=C' >> /mnt/etc/locale.conf
