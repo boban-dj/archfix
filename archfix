@@ -401,6 +401,7 @@ function calc_optimal_patition_size() {
 		ROOT_SIZE=15000
 	else
 	  CHECK_VALUE=$(($TOTAL_HDD_SIZE - 10000))
+	  if [[ $CHECK_VALUE =~ ^[0-9]+$ ]]
 	  then
 		ROOT_SIZE=10000
 	  else
