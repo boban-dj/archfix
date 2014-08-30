@@ -42,8 +42,8 @@ function first_choise() {
   echo "               +                                           "
   echo "               A                                           "
   echo "              AAA                                          "
-  echo "             AAAAA                                         "               
-  echo "             AAAAAA                                        "                 
+  echo "             AAAAA                                         "
+  echo "             AAAAAA                                        "
   echo "            ; AAAAA;                                       "
   echo "           +AA.AAAAA    ArchFix Installation Script        "
   echo "          +AAAAAAAAAA	  The fastest Install script ever! "
@@ -66,80 +66,80 @@ function first_choise() {
   clear
   
   ANSWER="/tmp/.fc"
-
+  
   dialog --backtitle "$DIALOG_TITLE" \
-	     --title "Installation Routine" --clear \
-         --menu "Please select the installation routine" 20 61 5 \
-         "1"  "Base System Installation" \
-         "2"  "Install Packages & Configure the System"  2> $ANSWER
+  --title "Installation Routine" --clear \
+  --menu "Please select the installation routine" 20 61 5 \
+  "1"  "Base System Installation" \
+  "2"  "Install Packages & Configure the System"  2> $ANSWER
   retval=$?
   choice=`cat $ANSWER`
   case $retval in
     0)
-       if [ $choice -eq 1 ]
-		  then
-			dolanguage
-			dokeymap
-			dotimezone
-			enter_hostname
-			partitioning
-			install_base
-		  else
-			load_configs
-			optimize_mirrorlist
-			install_yaourt
-			user_config
-			adduser
-			install_powerpill
-			install_compress_tools
-			install_alsa
-			install_pulse
-			install_bash_goodies
-			install_avahi_deamon
-			install_ntfs_tools
-			install_openssh
-			readahead_on
-			install_xserver
-			install_video_driver
-			install_infinality_font_config
-			install_cups
-			install_xfce
-			install_lightdm
-			
-			#clean package cache
-			pacman -Scc --noconfirm
-			
-			install_plank
-			install_archey
-			install_libreoffice
-			install_gimp
-			install_inkscape
-			install_firewall
-			install_gaming_stuff
-			install_extra_gtk_apps
-			install_extra_qt_apps
-			install_audio_tools_and_codec
-			install_video_tools_and_codec
-			
-			#clean package cache
-			pacman -Scc --noconfirm
-			
-			install_fonts
-			install_java
-			install_internet_tools
-			
-			#clean package cache
-			pacman -Scc --noconfirm
-			resecure_sudoers
-			clear
-			echo "finished!....."
-			sleep 2
-			reboot
-		  fi;;
-		1)
-		  echo "script was canceled!";;
-		255)
-		  echo "script was canceled!";;
+      if [ $choice -eq 1 ]
+      then
+        dolanguage
+        dokeymap
+        dotimezone
+        enter_hostname
+        partitioning
+        install_base
+      else
+        load_configs
+        optimize_mirrorlist
+        install_yaourt
+        user_config
+        adduser
+        install_powerpill
+        install_compress_tools
+        install_alsa
+        install_pulse
+        install_bash_goodies
+        install_avahi_deamon
+        install_ntfs_tools
+        install_openssh
+        readahead_on
+        install_xserver
+        install_video_driver
+        install_infinality_font_config
+        install_cups
+        install_xfce
+        install_lightdm
+        
+        #clean package cache
+        pacman -Scc --noconfirm
+        
+        install_plank
+        install_archey
+        install_libreoffice
+        install_gimp
+        install_inkscape
+        install_firewall
+        install_gaming_stuff
+        install_extra_gtk_apps
+        install_extra_qt_apps
+        install_audio_tools_and_codec
+        install_video_tools_and_codec
+        
+        #clean package cache
+        pacman -Scc --noconfirm
+        
+        install_fonts
+        install_java
+        install_internet_tools
+        
+        #clean package cache
+        pacman -Scc --noconfirm
+        resecure_sudoers
+        clear
+        echo "finished!....."
+        sleep 2
+        reboot
+    fi;;
+    1)
+    echo "script was canceled!";;
+    255)
+    echo "script was canceled!";;
   esac
   return 0
 }
@@ -329,8 +329,8 @@ function dotimezone() {
 function enter_hostname() {
   clear
   HOSTNAME=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" \
-				    --title "Enter the hostname of your choice" \
-				    --inputbox "Please enter the hostname of your machine" 8 60) 
+    --title "Enter the hostname of your choice" \
+  --inputbox "Please enter the hostname of your machine" 8 60)
   echo ${HOSTNAME} > hostname.config
   clear
 }
@@ -367,22 +367,22 @@ function calc_optimal_patition_size() {
   CHECK_VALUE=$(($TOTAL_HDD_SIZE - 35000))
   if [ "$CHECK_VALUE" -gt 0 ]
   then
-     ROOT_SIZE=35000
+    ROOT_SIZE=35000
   else
-	CHECK_VALUE=$(($TOTAL_HDD_SIZE - 15000))
-	if [ "$CHECK_VALUE" -gt 0 ]
-	then
-		ROOT_SIZE=15000
-	else
-	  CHECK_VALUE=$(($TOTAL_HDD_SIZE - 10000))
-	  if [ "$CHECK_VALUE" -gt 0 ]
-	  then
-		ROOT_SIZE=10000
-	  else
-		message_print 0 'Error! you have not enough disk space!'
-		message_print 0 'You need min. 12 GB diskspace!'
-	  fi
-	fi
+    CHECK_VALUE=$(($TOTAL_HDD_SIZE - 15000))
+    if [ "$CHECK_VALUE" -gt 0 ]
+    then
+      ROOT_SIZE=15000
+    else
+      CHECK_VALUE=$(($TOTAL_HDD_SIZE - 10000))
+      if [ "$CHECK_VALUE" -gt 0 ]
+      then
+        ROOT_SIZE=10000
+      else
+        message_print 0 'Error! you have not enough disk space!'
+        message_print 0 'You need min. 12 GB diskspace!'
+      fi
+    fi
   fi
   
   HOME_SIZE=$(($TOTAL_HDD_SIZE - $ROOT_SIZE))
@@ -405,63 +405,63 @@ function partitioning() {
   disks=""
   
   for i in $disks1; do disks="${disks} /dev/${i} -"; done
-
+  
   dialog --backtitle "$DIALOG_TITLE"  \
-         --title "Partitioning" --clear \
-         --menu "Select a hard drive to partition." 0 0 0 $disks 2> $ANSWER
-
+  --title "Partitioning" --clear \
+  --menu "Select a hard drive to partition." 0 0 0 $disks 2> $ANSWER
+  
   retval=$?
-
+  
   choice=`cat $ANSWER`
   case $retval in
     0)
-	  HDD_NAME = $choice
-	  get_total_hdd_size $HDD_NAME
-	  calc_optimal_patition_size
-	  echo '-----------------------'
-	  echo 'boot: '$BOOT_SIZE ' MB'
-	  echo 'root: '$ROOT_SIZE ' MB'
-	  echo 'home: '$HOME_SIZE ' MB'
-	  echo ''
-	  echo 'swap: '$SWAP_SIZE ' MB'
-	  echo '-----------------------'
-	  
-	  #Back to KB Sizes
-	  BOOT_SIZE=$(($BOOT_SIZE * 1024))
-	  ROOT_SIZE=$(($ROOT_SIZE * 1024))
-	  HOME_SIZE=$(($HOME_SIZE * 1024))
-	  SWAP_SIZE=$(($SWAP_SIZE * 1024))
-	  
-	  #Wiping the entire disk
-	  dd if=/dev/zero of=$HDD_NAME  bs=512  count=1
-	  
-	  touch /tmp/fdisk.input
-	  echo -e "n\np\n1\n\n+"$BOOT_SIZE"K\na\n1\nn\np\n2\n\n+"$SWAP_SIZE"K\nt\n2\n82\nn\np\n3\n\n+"$ROOT_SIZE"K\nn\np\n4\n\n+"$HOME_SIZE"K\nn\np\n5\n\nw" > /tmp/fdisk.input
-	  
-	  # Create Partitions
-	  fdisk $HDD_NAME < /tmp/fdisk.input
-	  
-	  # Remove fdisk.input file
-	  rm /tmp/fdisk.input
-	  
-	  mkfs.ext2 -L boot $HDD_NAME'1'
-	  mkswap -L swap $HDD_NAME'2'
-	  mkfs.ext4 -L root $HDD_NAME'3'
-	  mkfs.ext4 -L home $HDD_NAME'4'
-	  
-	  #enable swap
-	  swapon $HDD_NAME'2'
-	  
-	  #mount all patitions
-	  mount $HDD_NAME'3' /mnt
-	  mkdir /mnt/boot
-	  mkdir /mnt/home
-	  mount $HDD_NAME'1' /mnt/boot
-	  mount $HDD_NAME'4' /mnt/home;;
+      HDD_NAME = $choice
+      get_total_hdd_size $HDD_NAME
+      calc_optimal_patition_size
+      echo '-----------------------'
+      echo 'boot: '$BOOT_SIZE ' MB'
+      echo 'root: '$ROOT_SIZE ' MB'
+      echo 'home: '$HOME_SIZE ' MB'
+      echo ''
+      echo 'swap: '$SWAP_SIZE ' MB'
+      echo '-----------------------'
+      
+      #Back to KB Sizes
+      BOOT_SIZE=$(($BOOT_SIZE * 1024))
+      ROOT_SIZE=$(($ROOT_SIZE * 1024))
+      HOME_SIZE=$(($HOME_SIZE * 1024))
+      SWAP_SIZE=$(($SWAP_SIZE * 1024))
+      
+      #Wiping the entire disk
+      dd if=/dev/zero of=$HDD_NAME  bs=512  count=1
+      
+      touch /tmp/fdisk.input
+      echo -e "n\np\n1\n\n+"$BOOT_SIZE"K\na\n1\nn\np\n2\n\n+"$SWAP_SIZE"K\nt\n2\n82\nn\np\n3\n\n+"$ROOT_SIZE"K\nn\np\n4\n\n+"$HOME_SIZE"K\nn\np\n5\n\nw" > /tmp/fdisk.input
+      
+      # Create Partitions
+      fdisk $HDD_NAME < /tmp/fdisk.input
+      
+      # Remove fdisk.input file
+      rm /tmp/fdisk.input
+      
+      mkfs.ext2 -L boot $HDD_NAME'1'
+      mkswap -L swap $HDD_NAME'2'
+      mkfs.ext4 -L root $HDD_NAME'3'
+      mkfs.ext4 -L home $HDD_NAME'4'
+      
+      #enable swap
+      swapon $HDD_NAME'2'
+      
+      #mount all patitions
+      mount $HDD_NAME'3' /mnt
+      mkdir /mnt/boot
+      mkdir /mnt/home
+      mount $HDD_NAME'1' /mnt/boot
+    mount $HDD_NAME'4' /mnt/home;;
     1)
-	  echo "script was canceled!";;
+    echo "script was canceled!";;
     255)
-      echo "script was canceled!";;
+    echo "script was canceled!";;
   esac
   
   return 0
@@ -644,30 +644,30 @@ function install_package() {
 }
 
 function adduser() {
-	clear
-	USERNAME=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" \
-				    --title "Enter your Username" \
-				    --inputbox "Please enter your Username" 8 60) 
-	clear
-	useradd -m -g users -G audio,lp,network,optical,scanner,storage,sys,video,power,wheel -d /home/$USERNAME -s /bin/bash $USERNAME
-
-	while true; do
-		PASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Enter the Password for the User: $USERNAME" --passwordbox "Enter your password" 10 30)
-		clear
-		CPASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Re-enter the Password for the User: $USERNAME" --passwordbox "Enter your password" 10 30)
-		clear
-		if [ "$PASSWORD" == "$CPASSWORD" ]
-		then
-			echo -e "$PASSWORD\n$CPASSWORD" | (passwd --stdin $USERNAME)
-		break
-		else
-			message_print 0 "Input was not identical"
-			sleep 2
-		fi
-	done
+  clear
+  USERNAME=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" \
+    --title "Enter your Username" \
+  --inputbox "Please enter your Username" 8 60)
+  clear
+  useradd -m -g users -G audio,lp,network,optical,scanner,storage,sys,video,power,wheel -d /home/$USERNAME -s /bin/bash $USERNAME
   
-	## Uncomment to allow members of group wheel to execute any command
-	sed -i '/%wheel ALL=(ALL) NOPASSWD: ALL/s/^#//' /etc/sudoers
+  while true; do
+    PASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Enter the Password for the User: $USERNAME" --passwordbox "Enter your password" 10 30)
+    clear
+    CPASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Re-enter the Password for the User: $USERNAME" --passwordbox "Enter your password" 10 30)
+    clear
+    if [ "$PASSWORD" == "$CPASSWORD" ]
+    then
+      echo -e "$PASSWORD\n$CPASSWORD" | (passwd --stdin $USERNAME)
+      break
+    else
+      message_print 0 "Input was not identical"
+      sleep 2
+    fi
+  done
+  
+  ## Uncomment to allow members of group wheel to execute any command
+  sed -i '/%wheel ALL=(ALL) NOPASSWD: ALL/s/^#//' /etc/sudoers
   return 0
 }
 
@@ -874,88 +874,88 @@ function install_video_driver() {
   ARCH=$(uname -m)
   
   ANSWER="/tmp/.video"
-
+  
   dialog --backtitle "$DIALOG_TITLE" \
-	     --title "Install Video Card Driver" --clear \
-         --menu "Please select your Video Card" 20 30 5 \
-         "1"  "NVIDIA" \
-         "2"  "bumblebee" \
-         "3"  "Catalyst" \
-         "4"  "VirtualBox" 2> $ANSWER
-
+  --title "Install Video Card Driver" --clear \
+  --menu "Please select your Video Card" 20 30 5 \
+  "1"  "NVIDIA" \
+  "2"  "bumblebee" \
+  "3"  "Catalyst" \
+  "4"  "VirtualBox" 2> $ANSWER
+  
   retval=$?
-
+  
   choice=`cat $ANSWER`
   case $retval in
     0)
       if [ $choice -eq 1 ] #NVIDIA
-	  then
-		pacman --noconfirm -Rdds nouveau-dri
-		pacman --noconfirm -Rdds mesa-libgl
-		pacman --noconfirm -Rdds lib32-mesa-libgl
-		install_package "powerpill" "nvidia nvidia-libgl nvidia-utils opencl-nvidia"
-		install_package "powerpill" "pangox-compat"
-		install_package "powerpill" "libva-vdpau-driver"
-		if [[ ${ARCH} == x86_64 ]]
-		then
-		  pacman --noconfirm -Rdds lib32-nouveau-dri
-		  install_package "powerpill" "lib32-nvidia-utils"
-		  install_package "powerpill" "lib32-nvidia-libgl"
-		  install_package "powerpill" "lib32-opencl-nvidia"
-		fi
-		mkinitcpio -p linux
-		nvidia-xconfig --add-argb-glx-visuals --allow-glx-with-composite --composite -no-logo --render-accel -o /etc/X11/xorg.conf.d/20-nvidia.conf;
-	  fi
-	  
-	  if [ $choice -eq 2 ] #bumblebee
-	  then
-		pacman --noconfirm -Rdds nouveau-dri
-		pacman --noconfirm -Rdds mesa-libgl
-		pacman --noconfirm -Rdds lib32-mesa-libgl
-		install_package "powerpill" "xf86-video-intel bumblebee nvidia nvidia-libgl nvidia-utils opencl-nvidia"
-		install_package "powerpill" "pangox-compat"
-		install_package "powerpill" "libva-vdpau-driver"
-		if [[ ${ARCH} == x86_64 ]]
-		then
-		  pacman --noconfirm -Rdds lib32-nouveau-dri
-		  install_package "powerpill" "lib32-nvidia-utils"
-		  install_package "powerpill" "lib32-nvidia-libgl"
-		  install_package "powerpill" "lib32-opencl-nvidia"
-		fi
-		replace_line '*options nouveau modeset=1' '#options nouveau modeset=1' /etc/modprobe.d/modprobe.conf
-		replace_line '*MODULES="nouveau"' '#MODULES="nouveau"' /etc/mkinitcpio.conf
-		mkinitcpio -p linux
-		gpasswd -a ${USERNAME} bumblebee
-	  fi
-	  
-	  if [ $choice -eq 3 ] #Catalyst
-	  then
-		pacman --noconfirm -Rdds ati-dri
-		[[ -f /etc/modules-load.d/ati.conf ]] && rm /etc/modules-load.d/ati.conf
-		if [[ ${ARCHI} == x86_64 ]]; then
-		  pacman --noconfirm -Rdds lib32-ati-dri
-		fi
-		install_package "powerpill" "linux-headers"
-		install_package "yaourt" "catalyst-total"
-		aticonfig --initial --output=/etc/X11/xorg.conf.d/20-radeon.conf
-		systemctl enable atieventsd
-		systemctl enable catalyst-hook
-		systemctl enable temp-links-catalyst
-	  fi
-	  
-	  if [ $choice -eq 4 ] #VirtualBox
-	  then
-		install_package "powerpill" "virtualbox-guest-utils"
-		install_package "powerpill" "mesa-libgl"
-		add_module "vboxguest vboxsf vboxvideo" "virtualbox-guest"
-		gpasswd -a ${USERNAME} vboxsf
-		systemctl disable ntpd
-		systemctl enable vboxservice
-	  fi;;
+      then
+        pacman --noconfirm -Rdds nouveau-dri
+        pacman --noconfirm -Rdds mesa-libgl
+        pacman --noconfirm -Rdds lib32-mesa-libgl
+        install_package "powerpill" "nvidia nvidia-libgl nvidia-utils opencl-nvidia"
+        install_package "powerpill" "pangox-compat"
+        install_package "powerpill" "libva-vdpau-driver"
+        if [[ ${ARCH} == x86_64 ]]
+        then
+          pacman --noconfirm -Rdds lib32-nouveau-dri
+          install_package "powerpill" "lib32-nvidia-utils"
+          install_package "powerpill" "lib32-nvidia-libgl"
+          install_package "powerpill" "lib32-opencl-nvidia"
+        fi
+        mkinitcpio -p linux
+        nvidia-xconfig --add-argb-glx-visuals --allow-glx-with-composite --composite -no-logo --render-accel -o /etc/X11/xorg.conf.d/20-nvidia.conf;
+      fi
+      
+      if [ $choice -eq 2 ] #bumblebee
+      then
+        pacman --noconfirm -Rdds nouveau-dri
+        pacman --noconfirm -Rdds mesa-libgl
+        pacman --noconfirm -Rdds lib32-mesa-libgl
+        install_package "powerpill" "xf86-video-intel bumblebee nvidia nvidia-libgl nvidia-utils opencl-nvidia"
+        install_package "powerpill" "pangox-compat"
+        install_package "powerpill" "libva-vdpau-driver"
+        if [[ ${ARCH} == x86_64 ]]
+        then
+          pacman --noconfirm -Rdds lib32-nouveau-dri
+          install_package "powerpill" "lib32-nvidia-utils"
+          install_package "powerpill" "lib32-nvidia-libgl"
+          install_package "powerpill" "lib32-opencl-nvidia"
+        fi
+        replace_line '*options nouveau modeset=1' '#options nouveau modeset=1' /etc/modprobe.d/modprobe.conf
+        replace_line '*MODULES="nouveau"' '#MODULES="nouveau"' /etc/mkinitcpio.conf
+        mkinitcpio -p linux
+        gpasswd -a ${USERNAME} bumblebee
+      fi
+      
+      if [ $choice -eq 3 ] #Catalyst
+      then
+        pacman --noconfirm -Rdds ati-dri
+        [[ -f /etc/modules-load.d/ati.conf ]] && rm /etc/modules-load.d/ati.conf
+        if [[ ${ARCHI} == x86_64 ]]; then
+          pacman --noconfirm -Rdds lib32-ati-dri
+        fi
+        install_package "powerpill" "linux-headers"
+        install_package "yaourt" "catalyst-total"
+        aticonfig --initial --output=/etc/X11/xorg.conf.d/20-radeon.conf
+        systemctl enable atieventsd
+        systemctl enable catalyst-hook
+        systemctl enable temp-links-catalyst
+      fi
+      
+      if [ $choice -eq 4 ] #VirtualBox
+      then
+        install_package "powerpill" "virtualbox-guest-utils"
+        install_package "powerpill" "mesa-libgl"
+        add_module "vboxguest vboxsf vboxvideo" "virtualbox-guest"
+        gpasswd -a ${USERNAME} vboxsf
+        systemctl disable ntpd
+        systemctl enable vboxservice
+    fi;;
     1)
-      echo "Cancel pressed.";;
+    echo "Cancel pressed.";;
     255)
-      echo "ESC pressed.";;
+    echo "ESC pressed.";;
   esac
   return 0
 }
