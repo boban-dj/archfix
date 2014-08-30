@@ -17,7 +17,6 @@
 # Place, Suite 330, Boston, MA  02111-1307   USA
 #
 # my personal Arch Linux Installation script
-# Version Beta 1
 
 RESULT=0
 COUNTER=0
@@ -38,6 +37,7 @@ ARCH_ROOT='/mnt'
 USERNAME=''
 HDD_NAME=''
 declare -a CHOISE_ARRAY
+VERSION=1.0.3
 
 function first_choise() {
   clear
@@ -351,13 +351,11 @@ function dotimezone() {
 
 function enter_hostname() {
   clear
-  echo "******************************************************"
-  echo "***********   Please enter the Hostname    ***********"
-  echo "******************************************************"
-  echo ""
-  sleep 2
-  read -p "Enter hostname : " HOSTNAME
+  HOSTNAME=$(dialog --stdout --clear --backtitle "ArchFix Install Script Version: $VERSION" \
+				    --title "Enter the hostname of your choice" \
+				    --inputbox "Please enter the hostname of your machine" 8 60) 
   echo ${HOSTNAME} > hostname.config
+  clear
 }
 
 function get_total_hdd_size() {
@@ -388,24 +386,24 @@ function calc_optimal_swap_size() {
 
 function calc_optimal_patition_size() {
   TOTAL_HDD_SIZE=$(($TOTAL_HDD_SIZE - $BOOT_SIZE - $SWAP_SIZE))
-  #ROOT_SIZE=$(($TOTAL_HDD_SIZE * 15 / 100))
   
   CHECK_VALUE=$(($TOTAL_HDD_SIZE - 35000))
-  if [[ $CHECK_VALUE =~ ^[0-9]+$ ]]
+  if [ "$CHECK_VALUE" -gt 0 ]
   then
      ROOT_SIZE=35000
   else
 	CHECK_VALUE=$(($TOTAL_HDD_SIZE - 15000))
-	if [[ $CHECK_VALUE =~ ^[0-9]+$ ]]
+	if [ "$CHECK_VALUE" -gt 0 ]
 	then
 		ROOT_SIZE=15000
 	else
 	  CHECK_VALUE=$(($TOTAL_HDD_SIZE - 10000))
-	  if [[ $CHECK_VALUE =~ ^[0-9]+$ ]]
+	  if [ "$CHECK_VALUE" -gt 0 ]
 	  then
 		ROOT_SIZE=10000
 	  else
-		message_print 0 'error! you have not enough disk space!'
+		message_print 0 'Error! you have not enough disk space!'
+		message_print 0 'You need min. 12 GB diskspace!'
 	  fi
 	fi
   fi
@@ -660,23 +658,30 @@ function install_package() {
 }
 
 function adduser() {
-  clear
-  echo "******************************************************"
-  echo "***************      Add USER!         ***************"
-  echo "******************************************************"
-  echo ""
-  sleep 2
-  read -p "Enter username : " USERNAME
-  useradd -m -g users -G audio,lp,network,optical,scanner,storage,sys,video,power,wheel -d /home/$USERNAME -s /bin/bash $USERNAME
-  echo ""
-  message_print 0 "******************************************************"
-  message_print 0 "*****please enter a secure password for the user!*****"
-  message_print 0 "******************************************************"
-  echo ""
-  passwd $USERNAME
+	clear
+	USERNAME=$(dialog --stdout --clear --backtitle "ArchFix Install Script Version: $VERSION" \
+				    --title "Enter your Username" \
+				    --inputbox "Please enter your Username" 8 60) 
+	clear
+	useradd -m -g users -G audio,lp,network,optical,scanner,storage,sys,video,power,wheel -d /home/$USERNAME -s /bin/bash $USERNAME
+
+	while true; do
+		PASSWORD=$(dialog --stdout --clear --title "Enter the Password for the User: $USERNAME" --passwordbox "Enter your password" 10 30)
+		clear
+		CPASSWORD=$(dialog --stdout --clear --title "Re-enter the Password for the User: $USERNAME" --passwordbox "Enter your password" 10 30)
+		clear
+		if [ "$PASSWORD" == "$CPASSWORD" ]
+		then
+			echo -e "$PASSWORD\n$CPASSWORD" | (passwd --stdin $USERNAME)
+		break
+		else
+			message_print 0 "Input was not identical"
+			sleep 2
+		fi
+	done
   
-  ## Uncomment to allow members of group wheel to execute any command
-  sed -i '/%wheel ALL=(ALL) NOPASSWD: ALL/s/^#//' /etc/sudoers
+	## Uncomment to allow members of group wheel to execute any command
+	sed -i '/%wheel ALL=(ALL) NOPASSWD: ALL/s/^#//' /etc/sudoers
   return 0
 }
 
