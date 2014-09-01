@@ -499,7 +499,7 @@ function install_base() {
   arch_chroot 'locale-gen'
   
   #Install extra system stuff
-  arch_chroot "pacman --noconfirm -S networkmanager sudo wpa_supplicant"
+  arch_chroot "pacman --noconfirm -S networkmanager sudo wpa_supplicant dialog"
   
   #enable NetworkManager
   arch_chroot 'systemctl enable NetworkManager.service'
