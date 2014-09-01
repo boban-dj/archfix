@@ -415,7 +415,7 @@ function partitioning() {
   choice=`cat $ANSWER`
   case $retval in
     0)
-      HDD_NAME = $choice
+      HDD_NAME=$choice
       get_total_hdd_size $HDD_NAME
       calc_optimal_patition_size
       echo '-----------------------'
