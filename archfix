@@ -658,7 +658,7 @@ function adduser() {
     clear
     if [ "$PASSWORD" == "$CPASSWORD" ]
     then
-      echo -e "$PASSWORD\n$CPASSWORD" | (passwd --stdin $USERNAME)
+      echo -e "$PASSWORD\n$PASSWORD" | passwd $USERNAME
       break
     else
       message_print 0 "Input was not identical"
@@ -1200,4 +1200,3 @@ function install_java() {
 }
 
 first_choise
-
