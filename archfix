@@ -1185,6 +1185,9 @@ function install_internet_tools() {
   CCODE=${LANGUAGE:0:2}
   install_package "yaourt" "google-chrome"
   install_package "powerpill" "thunderbird thunderbird-i18n-"$CCODE
+  install_package "powerpill" "pidgin skype"
+  install_package "yaourt" "pidgin-pbar"
+  install_package "powerpill" "uget transmission-gtk"
   return 0
 }
 
