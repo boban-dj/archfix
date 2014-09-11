@@ -37,7 +37,7 @@ HDD_NAME=''
 VERSION=1.0.3
 DIALOG_TITLE='ArchFix Install Script Version: '$VERSION
 
-function first_choise() {
+function mainMenu() {
   clear
   echo "               +                                           "
   echo "               A                                           "
@@ -1199,4 +1199,4 @@ function install_java() {
   return 0
 }
 
-first_choise
+mainMenu
