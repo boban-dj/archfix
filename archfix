@@ -915,6 +915,7 @@ function install_video_driver() {
           install_package "powerpill" "lib32-opencl-nvidia"
         fi
         mkinitcpio -p linux
+        depmod $(uname -r)
         nvidia-xconfig --add-argb-glx-visuals --allow-glx-with-composite --composite -no-logo --render-accel -o /etc/X11/xorg.conf.d/20-nvidia.conf;
       fi
       
@@ -936,6 +937,7 @@ function install_video_driver() {
         replace_line '*options nouveau modeset=1' '#options nouveau modeset=1' /etc/modprobe.d/modprobe.conf
         replace_line '*MODULES="nouveau"' '#MODULES="nouveau"' /etc/mkinitcpio.conf
         mkinitcpio -p linux
+        depmod $(uname -r)
         gpasswd -a ${USERNAME} bumblebee
       fi
       
@@ -948,6 +950,8 @@ function install_video_driver() {
         fi
         install_package "powerpill" "linux-headers"
         install_package "yaourt" "catalyst-total"
+        mkinitcpio -p linux
+        depmod $(uname -r)
         aticonfig --initial --output=/etc/X11/xorg.conf.d/20-radeon.conf
         systemctl enable atieventsd
         systemctl enable catalyst-hook
@@ -958,6 +962,8 @@ function install_video_driver() {
       then
         install_package "powerpill" "virtualbox-guest-utils"
         install_package "powerpill" "mesa-libgl"
+        mkinitcpio -p linux
+        depmod $(uname -r)
         add_module "vboxguest vboxsf vboxvideo" "virtualbox-guest"
         gpasswd -a ${USERNAME} vboxsf
         systemctl disable ntpd
