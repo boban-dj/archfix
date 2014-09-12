@@ -661,9 +661,9 @@ function adduser() {
 
 function set_user_password() {
     while true; do
-    PASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Enter the Password for the User: $1" --passwordbox "Enter your password" 10 30)
+    PASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Enter the Password for the User: $1" --passwordbox "Enter your password" 10 60)
     clear
-    CPASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Re-enter the Password for the User: $1" --passwordbox "Enter your password" 10 30)
+    CPASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Re-enter the Password for the User: $1" --passwordbox "Enter your password" 10 60)
     clear
     if [ "$PASSWORD" == "$CPASSWORD" ]
     then
