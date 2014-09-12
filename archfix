@@ -541,10 +541,11 @@ function install_base() {
   arch_chroot 'grub-install --target=i386-pc --recheck --debug '${HDD_NAME}
   arch_chroot 'grub-mkconfig -o /boot/grub/grub.cfg'
   
+  clear
   #SET Root password
-  arch_chroot 'passwd'
-  
-  
+  set_user_password "root" 1
+  clear
+
   cd
   cp -r archfix/ /mnt/root/
   
@@ -651,25 +652,35 @@ function adduser() {
   clear
   useradd -m -g users -G audio,lp,network,optical,scanner,storage,sys,video,power,wheel -d /home/$USERNAME -s /bin/bash $USERNAME
   
-  while true; do
-    PASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Enter the Password for the User: $USERNAME" --passwordbox "Enter your password" 10 30)
+  set_user_password $USERNAME 0
+  
+  ## Uncomment to allow members of group wheel to execute any command
+  sed -i '/%wheel ALL=(ALL) NOPASSWD: ALL/s/^#//' /etc/sudoers
+  return 0
+}
+
+function set_user_password() {
+    while true; do
+    PASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Enter the Password for the User: $1" --passwordbox "Enter your password" 10 30)
     clear
-    CPASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Re-enter the Password for the User: $USERNAME" --passwordbox "Enter your password" 10 30)
+    CPASSWORD=$(dialog --stdout --clear --backtitle "$DIALOG_TITLE" --title "Re-enter the Password for the User: $1" --passwordbox "Enter your password" 10 30)
     clear
     if [ "$PASSWORD" == "$CPASSWORD" ]
     then
-      echo -e "$PASSWORD\n$PASSWORD" | passwd $USERNAME
+      if [ $2 -eq 0 ] 
+      then
+        echo -e "$PASSWORD\n$PASSWORD" | passwd $1
+      else
+        echo -e "$PASSWORD\n$PASSWORD" | arch_chroot passwd $1
+      fi
       break
     else
       message_print 0 "Input was not identical"
       sleep 2
     fi
   done
-  
-  ## Uncomment to allow members of group wheel to execute any command
-  sed -i '/%wheel ALL=(ALL) NOPASSWD: ALL/s/^#//' /etc/sudoers
-  return 0
 }
+
 
 function resecure_sudoers(){
   sed -i "/%wheel ALL=(ALL) NOPASSWD: ALL/s/^\(.*\)/#\1/g"  /etc/sudoers
@@ -1183,7 +1194,8 @@ function install_internet_tools() {
   echo ""
   sleep 2
   CCODE=${LANGUAGE:0:2}
-  install_package "yaourt" "google-chrome"
+  install_package "powerpill" "chromium"
+  install_package "yaourt" "chromium-pepper-flash"
   install_package "powerpill" "thunderbird thunderbird-i18n-"$CCODE
   install_package "powerpill" "pidgin skype"
   install_package "yaourt" "pidgin-pbar"
